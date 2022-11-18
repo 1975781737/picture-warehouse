@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">    
+    <parent>
+        <groupId>com.hundsun.bemp</groupId>
+        <artifactId>bemp-version-bom</artifactId>
+        <version>5.20230100cwgs.0.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.hundsun.bemp</groupId> 
+    <artifactId>bemp-ahnxbank</artifactId>
+    <packaging>pom</packaging>	
+    <version>5.20230100cwgs.0.0-SNAPSHOT</version>
+	<properties>
+		<!-- 应用版本 -->
+   		<bemp-ahnxbank-adapter-api.version>5.20230100cwgs.0.0-SNAPSHOT</bemp-ahnxbank-adapter-api.version>
+		<bemp-ahnxbank-adapter-as.version>5.20230100cwgs.0.0-SNAPSHOT</bemp-ahnxbank-adapter-as.version>
+		<bemp-ahnxbank-biz-api.version>5.20230100cwgs.0.0-SNAPSHOT</bemp-ahnxbank-biz-api.version>
+		<bemp-ahnxbank-biz-as.version>5.20230100cwgs.0.0-SNAPSHOT</bemp-ahnxbank-biz-as.version>
+		<bemp-ahnxbank-common.version>5.20230100cwgs.0.0-SNAPSHOT</bemp-ahnxbank-common.version>
+		<bemp-ahnxbank-conf.version>5.20230100cwgs.0.0-SNAPSHOT</bemp-ahnxbank-conf.version>
+			
+		<!-- 环境 -->
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.encoding>UTF-8</maven.compiler.encoding>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+    </properties>
+    <modules>
+        <module>ahnxbank-adapter-api</module>
+        <module>ahnxbank-adapter-as</module>
+        <module>ahnxbank-common</module>
+        <module>ahnxbank-conf</module>
+        <module>ahnxbank-biz-api</module>
+        <!--<module>ahnxbank-biz-ar</module>-->
+        <module>ahnxbank-biz-as</module>
+		<module>ahnxbank-adapter-boot-deploy</module>
+        <module>ahnxbank-served-boot-deploy</module>
+    </modules>
+        
+</project>
