@@ -1,0 +1,51 @@
+
+
+
+*--监听端口
+def listener(QMEMBFE) TRPTYPE(TCP) PORT(1414) CONTROL(QMGR) BACKLOG(0)
+START LISTENER(QMEMBFE)
+
+*--公共配置
+def ql(DEADQ) defpsist(yes) maxdepth(20000) maxmsgl(104857600) replace
+def ql(ERRMSG) defpsist(yes) maxdepth(20000) maxmsgl(104857600) replace
+alter qmgr deadq(deadq)
+alter qmgr ccsid(819)
+
+
+*-----GATEWAY->MBFE
+def ql(9071000028_1) defpsist(yes) maxdepth(20000) maxmsgl(104857600) bothresh(3) boqname(ERRMSG) replace
+def ql(9071000028_2) defpsist(yes) maxdepth(20000) maxmsgl(104857600) bothresh(3) boqname(ERRMSG) replace 
+*-----MB->MBFE
+def ql(9071000028_3) defpsist(yes) maxdepth(20000) maxmsgl(104857600) bothresh(3) boqname(ERRMSG) replace
+def ql(9071000028_4) defpsist(yes) maxdepth(20000) maxmsgl(104857600) bothresh(3) boqname(ERRMSG) replace 
+*-----MBFE->MB
+def ql(9071000028_5) defpsist(yes) maxdepth(20000) maxmsgl(104857600) bothresh(3) boqname(ERRMSG) replace 
+def ql(9071000028_6) defpsist(yes) maxdepth(20000) maxmsgl(104857600) bothresh(3) boqname(ERRMSG) replace 
+*-----MBFE->Gateway 远程队列、传输队列及通道
+def qr(9071000028_7) rname(GW1000_1) rqmname(QME1000) xmitq(QM9071000028) defpsist(yes) replace
+def qr(9071000028_8) rname(GW1000_2) rqmname(QME1000) xmitq(QM9071000028) defpsist(yes) replace
+def ql(QM9071000028) usage(XMITQ) defpsist(YES) maxdepth(100000) maxmsgl(104857600) trigger trigtype(FIRST) trigdata(9071000028.GW1000) initq(SYSTEM.CHANNEL.INITQ) replace
+
+*--上面为发送端（本行）、下为接收端（人行）
+def chl(9071000028.GW1000) chltype(SDR) discint(1800) conname('172.31.72.100(1418)') xmitq(QM9071000028) trptype(tcp) shortrty(10000) shorttmr(30) longtmr(300) longrty(999999999) batchsz(50) replace
+def chl(GW1000.9071000028) chltype(rcvr) trptype(tcp)
+
+检查执行是否正确
+
+执行
+start chl(9071000028.GW1000)
+
+dis chs(9071000028.GW1000)
+
+
+*--指定登录用户
+alter chl(SYSTEM.AUTO.SVRCONN) chltype(SVRCONN) mcauser('mqm')
+start chl(SYSTEM.AUTO.SVRCONN)
+禁用通道认证
+alter qmgr chlauth(disabled)
+refresh security type(connauth)
+
+#或者关闭连接认证
+ALTER QMGR CONNAUTH(' ')   
+#最后刷新连接认证策略
+REFRESH SECURITY TYPE(CONNAUTH)
